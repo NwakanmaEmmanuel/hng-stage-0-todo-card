@@ -1,0 +1,152 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Inter, Arial, sans-serif;
+  background: #f5f7fb;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+article {
+  width: 400px;
+  background: white;
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+div[data-testid="test-todo-edit-button"] {
+    padding: 2px;
+}
+
+
+article > div:first-child {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.data {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+/* 
+.data button{
+  border: 1px solid black;
+  padding: 2px 5px;
+  border-radius: 10px;
+} */
+
+h2 {
+  font-size: 18px;
+  font-weight: 600;
+}
+
+input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+}
+
+button {
+  background: transparent;
+  cursor: pointer;
+  font-size: 14px;
+  margin-left: 8px;  border: 1px solid #163336;
+  padding: 4px 6px;
+  border-radius: 10px;
+  background-color: #a5f3f8;
+}
+
+button:hover {
+  background-color: #41dcea;
+}
+
+article > div:nth-child(2) {
+  display: flex;
+  gap: 10px;
+}
+
+span[data-testid="test-todo-priority"] {
+  background: #ffe5e5;
+  color: #d93025;
+  padding: 4px 10px;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 600;
+  border: 1px solid #d93025;
+}
+
+span[data-testid="test-todo-status"] {
+  background: #e6f4ea;
+  color: #188038;
+  padding: 4px 10px;
+  border-radius: 8px;
+  font-size: 12px;
+  border: 1px solid #188038;
+
+}
+
+p {
+  color: #555;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+article > div:nth-child(4) {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+time {
+  font-size: 13px;
+  color: #666;
+}
+
+ul {
+  display: flex;
+  gap: 8px;
+  list-style: none;
+  flex-wrap: wrap;
+}
+
+li {
+  background: #eef2ff;
+  color: #3730a3;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+}
+
+article:hover {
+  transform: translateY(-2px);
+  transition: 0.2s ease;
+}
+
+.completed {
+  text-decoration: line-through;
+  opacity: 0.6;
+}
+
+
+
+
+
+
