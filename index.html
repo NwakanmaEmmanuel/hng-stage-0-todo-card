@@ -11,7 +11,7 @@
         <div>
             <label>
                 <input type="checkbox" data-testid="test-todo-complete-toggle">
-                <h2 data-testid="test-todo-title">Complete HNG Stage 0 Todo Card</h2>
+                <h2 data-testid="test-todo-title"></h2>
             </label>
             <div class="data">
                 <button aria-label="Edit task" data-testid="test-todo-edit-button">Edit</button>
@@ -19,14 +19,70 @@
             </div>
         </div>
 
+    <div>
+         <!-- 🔹 PRIORITY DISPLAY + INDICATOR -->
         <div>
+            <!-- visual indicator -->
+            <span data-testid="test-todo-priority-indicator" class="priority-dot"></span>
+
+            <!-- text display -->
             <span data-testid="test-todo-priority">High</span>
-            <span data-testid="test-todo-status">Pending</span>
         </div>
 
+
+        <!-- 🔹 STATUS DISPLAY + CONTROL -->
         <div>
-            <p data-testid="test-todo-description">Build a clean, interactive task card with proper semantics, test IDs, and time-based updates</p>
+            <!-- status text (display) -->
+            <span data-testid="test-todo-status">Pending</span>
+            
+            <!-- status dropdown (control) -->
+            <select data-testid="test-todo-status-control">
+                <option value="Pending">Pending</option>
+                <option value="In Progress">In Progress</option>
+                <option value="Done">Done</option>
+            </select>
         </div>
+
+
+        <!-- 🔹 EDIT MODE FORM -->
+        <form data-testid="test-todo-edit-form" style="display: none;">
+
+            <input data-testid="test-todo-edit-title-input" />
+            <textarea data-testid="test-todo-edit-description-input"></textarea>
+            <input type="datetime-local" data-testid="test-todo-edit-due-date-input" />
+        
+            <!-- edit priority -->
+            <label>
+                Priority:
+                <select data-testid="test-todo-edit-priority-select">
+                    <option value="Low">Low</option>
+                    <option value="Medium">Medium</option>
+                    <option value="High">High</option>
+                </select>
+            </label>
+
+            <!-- status control ALSO exists here if you want -->
+            <label>
+                Status:
+                <select>
+                    <option value="Pending">Pending</option>
+                    <option value="In Progress">In Progress</option>
+                    <option value="Done">Done</option>
+                </select>
+            </label>
+
+            <button type="button" data-testid="test-todo-save-button">Save</button>
+            <button type="button" data-testid="test-todo-cancel-button">Cancel</button>
+        </form>
+    </div>
+
+    <div data-testid="test-todo-collapsible-section">
+        <p data-testid="test-todo-description">
+            Build a clean, interactive task card...
+        </p>
+    </div>
+
+    <button data-testid="test-todo-expand-toggle">Show More</button>
 
         <div>
             <time
@@ -44,7 +100,7 @@
         </div>
         
         <div>
-            <ul data-testid="test-todo-tags " role="list">
+            <ul data-testid="test-todo-tags" role="list">
                 <li data-testid="test-todo-tag-Frontend">Frontend</li>
                 <li data-testid="test-todo-tag-UX" >UX</li>
                 <li  data-testid="test-todo-tag-Design">Design</li>
