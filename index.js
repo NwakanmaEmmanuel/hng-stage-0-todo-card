@@ -1,280 +1,238 @@
-
-  // const checkbox = document.querySelector('[data-testid="test-todo-complete-toggle"]');
-  // const title = document.querySelector('[data-testid="test-todo-title"]');
-  // const status = document.querySelector('[data-testid="test-todo-status"]');
-
-  // const dueDateEl = document.getElementById("dueDateEl");
-  // const timeRemainingEl = document.getElementById("timeRemainingEl");
-
-  // const dueDate = new Date(dueDateEl.getAttribute("datetime"));
-
-  // // ✅ Checkbox toggle
-  // checkbox.addEventListener("change", () => {
-  //   if (checkbox.checked) {
-  //     title.classList.add("completed");
-  //     status.textContent = "Completed";
-  //   } else {
-  //     title.classList.remove("completed");
-  //     status.textContent = "Pending";
-  //   }
-  // });
-
-  // function formatDate(date) {
-  //   return date.toLocaleDateString("en-US", {
-  //     month: "short",
-  //     day: "numeric",
-  //     year: "numeric",
-  //   });
-  // }
-
-  // function updateTime() {
-  //   const now = new Date();
-  //   const diff = dueDate - now;
-
-  //   const seconds = Math.floor(Math.abs(diff) / 1000);
-  //   const minutes = Math.floor(seconds / 60);
-  //   const hours = Math.floor(minutes / 60);
-  //   const days = Math.floor(hours / 24);
-
-  //   let text = "";
-
-  //   if (diff > 0) {
-  //     // future
-  //     if (days > 0) {
-  //       text = `Due in ${days} day${days > 1 ? "s" : ""}`;
-  //     } else if (hours > 0) {
-  //       text = `Due in ${hours} hour${hours > 1 ? "s" : ""}`;
-  //     } else {
-  //       text = `Due in ${minutes} minute${minutes > 1 ? "s" : ""}`;
-  //     }
-  //   } else {
-  //     // past
-  //     if (days > 0) {
-  //       text = `Overdue by ${days} day${days > 1 ? "s" : ""}`;
-  //     } else if (hours > 0) {
-  //       text = `Overdue by ${hours} hour${hours > 1 ? "s" : ""}`;
-  //     } else {
-  //       text = `Overdue by ${minutes} minute${minutes > 1 ? "s" : ""}`;
-  //     }
-  //   }
-
-  //   timeRemainingEl.textContent = text;
-  // }
-
-  // // ✅ Set due date text
-  // dueDateEl.textContent = `Due ${formatDate(dueDate)}`;
-
-  // // ✅ Initial call
-  // updateTime();
-
-  // // ✅ Update every 30 seconds
-  // setInterval(updateTime, 30000);
-
-
-
+// ── State ──
 const task = {
   title: "Complete HNG Stage 0 Todo Card",
-  description:
-    "Build a clean, interactive task card with proper semantics, test IDs, and time-based updates",
+  description: "Build a clean, interactive task card with proper semantics, test IDs, and time-based updates. This description is long enough to trigger the expand/collapse behaviour so testers can verify it works correctly.",
   priority: "High",
   status: "Pending",
   dueDate: "2026-04-16T23:59:00",
   completed: false,
-  tags: ["Frontend", "UX", "Design", "Sprint-2"],
 };
 
+// ── Element refs ──
+const card              = document.querySelector('[data-testid="test-todo-card"]');
+const viewMode          = document.getElementById("viewMode");
+const editForm          = document.getElementById("editForm");
 
+const checkbox          = document.querySelector('[data-testid="test-todo-complete-toggle"]');
+const titleEl           = document.querySelector('[data-testid="test-todo-title"]');
+const priorityBadge     = document.querySelector('[data-testid="test-todo-priority"]');
+const priorityIndicator = document.querySelector('[data-testid="test-todo-priority-indicator"]');
+const statusDisplay     = document.querySelector('[data-testid="test-todo-status"]');
+const statusControl     = document.querySelector('[data-testid="test-todo-status-control"]');
+const descEl            = document.querySelector('[data-testid="test-todo-description"]');
+const collapsible       = document.querySelector('[data-testid="test-todo-collapsible-section"]');
+const expandBtn         = document.querySelector('[data-testid="test-todo-expand-toggle"]');
+const dueDateEl         = document.getElementById("dueDateEl");
+const timeRemainingEl   = document.getElementById("timeRemainingEl");
+const overdueIndicator  = document.querySelector('[data-testid="test-todo-overdue-indicator"]');
 
-function renderTask() {
-  const titleEl = document.querySelector('[data-testid="test-todo-title"]');
-  const descEl = document.querySelector('[data-testid="test-todo-description"]');
-  const priorityEl = document.querySelector('[data-testid="test-todo-priority"]');
-  const statusEl = document.querySelector('[data-testid="test-todo-status"]');
-  const checkbox = document.querySelector('[data-testid="test-todo-complete-toggle"]');
-  const dueDateEl = document.getElementById("dueDateEl");
-
-  // 🔹 Update content
-  titleEl.textContent = task.title;
-  descEl.textContent = task.description;
-  priorityEl.textContent = task.priority;
-  statusEl.textContent = task.status;
-
-  // 🔹 Checkbox state
-  checkbox.checked = task.completed;
-
-  // 🔹 Strike-through if completed
-  if (task.completed) {
-    titleEl.classList.add("completed");
-  } else {
-    titleEl.classList.remove("completed");
-  }
-
-   const indicator = document.querySelector('[data-testid="test-todo-priority-indicator"]');
-
-  // reset classes
-  indicator.classList.remove("high", "medium", "low");
-
-  // apply correct one
-  indicator.classList.add(task.priority.toLowerCase());
-
-  const statusControl = document.querySelector('[data-testid="test-todo-status-control"]');
-  statusControl.value = task.status;  
-
-  const descContainer = document.querySelector('[data-testid="test-todo-collapsible-section"]');
-  const expandBtn = document.querySelector('[data-testid="test-todo-expand-toggle"]');
-
-  if (task.description.length > 100) {
-    if (isExpanded) {
-      descContainer.style.maxHeight = "none";
-      expandBtn.textContent = "Show Less";
-    } else {
-      descContainer.style.maxHeight = "60px";
-      expandBtn.textContent = "Show More";
-    }
-  } else {
-    expandBtn.style.display = "none";
-  }
-
-  updateTime()
-}
-
-document.querySelector('[data-testid="test-todo-edit-button"]').addEventListener("click", () => {
-  toggleEditMode(true);
-});
-
-  const checkbox = document.querySelector('[data-testid="test-todo-complete-toggle"]');
-
-  checkbox.addEventListener("change", () => {
-    task.completed = checkbox.checked;
-    task.status = checkbox.checked ? "Done" : "Pending";
-
-    renderTask();
-  });
-
-  const statusControl = document.querySelector('[data-testid="test-todo-status-control"]');
-
-  statusControl.addEventListener("change", (e) => {
-    task.status = e.target.value;
-    task.completed = task.status === "Done";
-
-    renderTask();
-  });
-
-  let isEditing = false;
-
-  // function toggleEditMode(state) {
-  //   isEditing = state;
-
-  //   const input = document.createElement("input") 
-
-  //   input.type = "text"
-  //   input.placeholder = "Enter Something"
-
-  //   if (isEditing) {
-  //     const checkbox = document.querySelector('[data-testid="test-todo-complete-toggle"]');
-  //     checkbox.disabled = true;
-  //     document.querySelector('[data-testid="test-todo-edit-form"]').style.display = "block";
-  //     document.querySelector('[data-testid="test-todo-title"]').textContent = '';
-  //     document.querySelector('[data-testid="test-todo-title"]').appendChild(input)
-  //   } else {
-  //     document.querySelector('[data-testid="test-todo-edit-form"]').style.display = "none";
-  //   }
-  // }
-
- function toggleEditMode(state) {
-  isEditing = state;
-
-  const form = document.querySelector('[data-testid="test-todo-edit-form"]');
-  const checkbox = document.querySelector('[data-testid="test-todo-complete-toggle"]');
-  const mainContent = document.querySelector('[data-testid="test-todo-description"]').parentElement;
-  const mainTitle = document.querySelector('[data-testid="test-todo-title"]').parentElement;
-
-  if (state) {
-    form.style.display = "block";
-
-    // hide normal view
-    mainContent.style.display = "none";
-    mainTitle.style.display = "none"
-
-    checkbox.disabled = true;
-
-    // prefill
-    document.querySelector('[data-testid="test-todo-edit-title-input"]').value = task.title;
-    document.querySelector('[data-testid="test-todo-edit-description-input"]').value = task.description;
-    document.querySelector('[data-testid="test-todo-edit-due-date-input"]').value = task.dueDate;
-    document.querySelector('[data-testid="test-todo-edit-priority-select"]').value = task.priority;
-
-  } else {
-    form.style.display = "none";
-
-    // show normal view
-    mainContent.style.display = "block";
-    mainTitle.style.display = "block"
-
-    checkbox.disabled = false;
-  }
-}
+const editTitleInput    = document.querySelector('[data-testid="test-todo-edit-title-input"]');
+const editDescInput     = document.querySelector('[data-testid="test-todo-edit-description-input"]');
+const editDueDateInput  = document.querySelector('[data-testid="test-todo-edit-due-date-input"]');
+const editPrioritySelect= document.querySelector('[data-testid="test-todo-edit-priority-select"]');
+const saveBtn           = document.querySelector('[data-testid="test-todo-save-button"]');
+const cancelBtn         = document.querySelector('[data-testid="test-todo-cancel-button"]');
 
 let isExpanded = false;
-const expandBtn = document.querySelector('[data-testid="test-todo-expand-toggle"]');
+let timerInterval = null;
+const COLLAPSE_HEIGHT = "56px"; // ~3 lines of text
 
+// ══════════════════════════════════════
+// RENDER — syncs all UI to task state
+// ══════════════════════════════════════
+function renderTask() {
+  // Title
+  titleEl.textContent = task.title;
+  titleEl.classList.toggle("completed", task.completed);
+
+  // Description
+  descEl.textContent = task.description;
+
+  // Priority badge + dot
+  priorityBadge.textContent = task.priority;
+  priorityBadge.className   = ""; // reset
+  priorityBadge.classList.add(task.priority.toLowerCase());
+
+  priorityIndicator.className = "priority-dot";
+  priorityIndicator.classList.add(task.priority.toLowerCase());
+
+  // Card left-border accent
+  card.classList.remove("priority-high", "priority-medium", "priority-low");
+  card.classList.add("priority-" + task.priority.toLowerCase());
+
+  // Status badge
+  statusDisplay.textContent = task.status;
+  statusDisplay.className   = "";
+  if (task.status === "Pending")     statusDisplay.classList.add("pending");
+  if (task.status === "In Progress") statusDisplay.classList.add("in-progress");
+  if (task.status === "Done")        statusDisplay.classList.add("done");
+
+  // Status control
+  statusControl.value = task.status;
+
+  // Checkbox
+  checkbox.checked = task.completed;
+
+  // Done state on card
+  card.classList.toggle("done-state", task.completed);
+
+  // Collapse / expand
+  if (task.description.length > 100) {
+    expandBtn.style.display = "block";
+    collapsible.style.maxHeight = isExpanded ? "none" : COLLAPSE_HEIGHT;
+    collapsible.style.overflow  = isExpanded ? "visible" : "hidden";
+    expandBtn.textContent = isExpanded ? "Show Less" : "Show More";
+    expandBtn.setAttribute("aria-expanded", String(isExpanded));
+  } else {
+    expandBtn.style.display     = "none";
+    collapsible.style.maxHeight = "none";
+    collapsible.style.overflow  = "visible";
+  }
+
+  // Time
+  updateTime();
+}
+
+// ══════════════════════════════════════
+// TIME
+// ══════════════════════════════════════
+function formatDueDate(d) {
+  return "Due " + d.toLocaleDateString("en-US", {
+    month: "short", day: "numeric", year: "numeric"
+  });
+}
+
+function updateTime() {
+  dueDateEl.textContent = formatDueDate(new Date(task.dueDate));
+
+  if (task.status === "Done") {
+    timeRemainingEl.textContent = "Completed";
+    timeRemainingEl.className   = "done";
+    overdueIndicator.style.display = "none";
+    return;
+  }
+
+  const now  = new Date();
+  const due  = new Date(task.dueDate);
+  const diff = due - now;
+  const abs  = Math.abs(diff);
+  const mins  = Math.floor(abs / 60000);
+  const hours = Math.floor(abs / 3600000);
+  const days  = Math.floor(abs / 86400000);
+
+  timeRemainingEl.className = "";
+  overdueIndicator.style.display = "none";
+
+  let text = "";
+  if (diff < 0) {
+    // Overdue
+    timeRemainingEl.classList.add("overdue");
+    overdueIndicator.style.display = "inline-block";
+    text = days  > 0 ? `Overdue by ${days} day${days > 1 ? "s" : ""}`
+         : hours > 0 ? `Overdue by ${hours} hour${hours > 1 ? "s" : ""}`
+         :             `Overdue by ${mins} minute${mins !== 1 ? "s" : ""}`;
+  } else {
+    if (hours < 1)       timeRemainingEl.classList.add("soon");
+    else if (days <= 3)  timeRemainingEl.classList.add("soon");
+    text = days  > 0 ? `Due in ${days} day${days > 1 ? "s" : ""}`
+         : hours > 0 ? `Due in ${hours} hour${hours > 1 ? "s" : ""}`
+         :             `Due in ${mins} minute${mins !== 1 ? "s" : ""}`;
+  }
+
+  timeRemainingEl.textContent = text;
+}
+
+function startTimer() {
+  clearInterval(timerInterval);
+  timerInterval = setInterval(updateTime, 30000);
+}
+
+// ══════════════════════════════════════
+// EDIT MODE
+// ══════════════════════════════════════
+function openEditMode() {
+  // Pre-fill
+  editTitleInput.value     = task.title;
+  editDescInput.value      = task.description;
+  editPrioritySelect.value = task.priority;
+
+  // Format for datetime-local input
+  const d   = new Date(task.dueDate);
+  const pad = n => String(n).padStart(2, "0");
+  editDueDateInput.value =
+    `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(d.getMinutes())}`;
+
+  // BUG FIX: hide the whole viewMode, not just description's parent
+  viewMode.style.display = "none";
+  editForm.style.display = "flex";
+
+  editTitleInput.focus();
+}
+
+function closeEditMode() {
+  editForm.style.display  = "none";
+  viewMode.style.display  = "block";
+  // Return focus to edit button
+  document.querySelector('[data-testid="test-todo-edit-button"]').focus();
+}
+
+// ══════════════════════════════════════
+// EVENT LISTENERS
+// ══════════════════════════════════════
+
+// Edit button
+document.querySelector('[data-testid="test-todo-edit-button"]')
+  .addEventListener("click", openEditMode);
+
+// Cancel
+cancelBtn.addEventListener("click", closeEditMode);
+
+// Save
+saveBtn.addEventListener("click", () => {
+  const newTitle = editTitleInput.value.trim();
+  if (!newTitle) { editTitleInput.focus(); return; }
+
+  task.title       = newTitle;
+  task.description = editDescInput.value.trim() || task.description;
+  task.priority    = editPrioritySelect.value;
+  if (editDueDateInput.value) task.dueDate = editDueDateInput.value;
+
+  // Reset expand state after description may have changed
+  isExpanded = false;
+
+  closeEditMode();
+  renderTask();
+});
+
+// Checkbox
+checkbox.addEventListener("change", () => {
+  task.completed = checkbox.checked;
+  task.status    = checkbox.checked ? "Done" : "Pending";
+  renderTask();
+});
+
+// Status control dropdown
+statusControl.addEventListener("change", (e) => {
+  task.status    = e.target.value;
+  task.completed = (task.status === "Done");
+  renderTask();
+});
+
+// Expand / collapse — BUG FIX: toggle flag then re-render
 expandBtn.addEventListener("click", () => {
   isExpanded = !isExpanded;
   renderTask();
 });
 
-  document.querySelector('[data-testid="test-todo-save-button"]').addEventListener("click", () => {
-  task.title = document.querySelector('[data-testid="test-todo-edit-title-input"]').value;
-  task.description = document.querySelector('[data-testid="test-todo-edit-description-input"]').value;
-  task.priority = document.querySelector('[data-testid="test-todo-edit-priority-select"]').value;
-  task.dueDate = document.querySelector('[data-testid="test-todo-edit-due-date-input"]').value;
+// Delete
+document.querySelector('[data-testid="test-todo-delete-button"]')
+  .addEventListener("click", () => {
+    card.style.transition = "opacity 0.3s, transform 0.3s";
+    card.style.opacity    = "0";
+    card.style.transform  = "scale(0.95)";
+    setTimeout(() => card.remove(), 320);
+  });
 
-  toggleEditMode(false);
-  renderTask();
-});
-
-  document.querySelector('[data-testid="test-todo-cancel-button"]').addEventListener("click", () => {
-  toggleEditMode(false);
-});
-
-
-
-  function updateTime() {
-  if (task.status === "Done") {
-    document.querySelector('[data-testid="test-todo-time-remaining"]').textContent = "Completed";
-    return;
-  }
-
-  const now = new Date();
-  const due = new Date(task.dueDate);
-  const diff = due - now;
-
-  let text = "";
-
-  const minutes = Math.floor(Math.abs(diff) / 1000 / 60);
-  const hours = Math.floor(minutes / 60);
-  const days = Math.floor(hours / 24);
-
-  if (diff > 0) {
-    text =
-      days > 0
-        ? `Due in ${days} days`
-        : hours > 0
-        ? `Due in ${hours} hours`
-        : `Due in ${minutes} minutes`;
-  } else {
-    text =
-      days > 0
-        ? `Overdue by ${days} days`
-        : hours > 0
-        ? `Overdue by ${hours} hours`
-        : `Overdue by ${minutes} minutes`;
-  }
-
-  document.querySelector('[data-testid="test-todo-time-remaining"]').textContent = text;
-}
-
- setInterval(updateTime, 30000);
-
- renderTask();
-updateTime();
+// ── Init ──
+renderTask();
+startTimer();
